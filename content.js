@@ -6,11 +6,24 @@ const eveningInSecond = dayInSecond;
 const stringClassPercent = "percent-"
 const startOfDay = new moment().startOf('day');
 
+setup();
+
 // Display time
-setInterval(function () {
+setInterval(function() {
+    setup();
+}, 1000);
+
+let flag = false;
+
+window.onresize = function(event) {
+    setFullDayWidth();
+};
+
+function setup() {
     // Full day
     let currentTime = new moment();
-    $(".full-day > .past > span").html(currentTime.format("h:mm:ss A"));
+    $(".full-day > .past > span.date").html(currentTime.format("dddd, D MMMM YYYY"));
+    $(".full-day > .past > span.time").html(currentTime.format("h:mm A"));
 
     const dayPastInSecond = currentTime.diff(startOfDay, 'second');
     const dayRemaingInSecond = dayInSecond - dayPastInSecond;
@@ -18,8 +31,6 @@ setInterval(function () {
     const percentDayRemaining = parseInt(dayRemaingInSecond * 100 / dayInSecond);
 
     $(".full-day > .label > span").html(secondsToHms(dayRemaingInSecond));
-
-    $(".full-day > .past").addClass(stringClassPercent + percentDayPast);
     $(".full-day > .label").addClass(stringClassPercent + percentDayRemaining);
 
     // Night
@@ -27,6 +38,9 @@ setInterval(function () {
     const nightRemaing = nightInSecond - dayPastInSecond;
     if (nightRemaing > 0) {
         percentNightPast = 100 - parseInt(nightRemaing * 100 / nightInSecond);
+        $(".night > .label-center > span").html(secondsToHms(nightRemaing));
+    } else {
+        // $(".night > .label-center > span").html("night past");
     }
     $(".night > .past").addClass(stringClassPercent + percentNightPast);
 
@@ -35,6 +49,9 @@ setInterval(function () {
     const morningRemaing = morningInSecond - dayPastInSecond;
     if (morningRemaing > 0) {
         percentMorningPast = 100 - parseInt(morningRemaing * 100 / (morningInSecond - nightInSecond));
+        $(".morning > .label-center > span").html(secondsToHms(morningRemaing));
+    } else {
+        // $(".morning > .label-center > span").html("morning past");
     }
     $(".morning > .past").addClass(stringClassPercent + percentMorningPast);
 
@@ -43,6 +60,9 @@ setInterval(function () {
     const afternoonRemaing = afternoonInSecond - dayPastInSecond;
     if (afternoonRemaing > 0) {
         percentAfternoonPast = 100 - parseInt(afternoonRemaing * 100 / (afternoonInSecond - morningInSecond));
+        $(".afternoon > .label-center > span").html(secondsToHms(afternoonRemaing));
+    } else {
+        // $(".afternoon > .label-center > span").html("afternoon past");
     }
     $(".afternoon > .past").addClass(stringClassPercent + percentAfternoonPast);
 
@@ -51,23 +71,12 @@ setInterval(function () {
     const eveningRemaing = eveningInSecond - dayPastInSecond;
     if (eveningRemaing > 0) {
         percentEveningPast = 100 - parseInt(eveningRemaing * 100 / (eveningInSecond - afternoonInSecond));
+        $(".evening > .label-center > span").html(secondsToHms(eveningRemaing));
     }
     $(".evening > .past").addClass(stringClassPercent + percentEveningPast);
 
-
-    // Fit text
-    if (!flag) {
-        flexFont();
-        flag = true;
-    }
-}, 1000);
-
-let flag = false;
-
-window.onresize = function (event) {
-    flexFont();
-};
-
+    setFullDayWidth();
+}
 
 function secondsToHms(d) {
     d = Number(d);
@@ -76,16 +85,36 @@ function secondsToHms(d) {
     var s = Math.floor(d % 3600 % 60);
 
     var hDisplay = h > 0 ? h + ":" : "00";
-    var mDisplay = m > 0 ? m + ":" : "00";
-    var sDisplay = s > 0 ? s : "00";
+    var mDisplay = m > 0 ?
+        m < 10 ? "0" + m + ":" : m + ":" :
+        "00:";
+    var sDisplay = s > 0 ?
+        s < 10 ? "0" + s : s :
+        "00";
     return hDisplay + mDisplay + sDisplay;
 }
 
 function flexFont() {
-    let textSpan = $("span.text");
-    textSpan.each(function () {
+    const timeTextSpan = $("span.time.text");
+    timeTextSpan.each(function() {
         const parentWidth = $(this).parent().width();
-        const fontSize = parentWidth * 0.18;
+        const fontSize = parentWidth * 0.13;
+        $(this).css("fontSize", fontSize + "px");
+    });
+    const dateTextSpan = $("span.date.text");
+    dateTextSpan.each(function() {
+        const parentWidth = $(this).parent().width();
+        const fontSize = parentWidth * 0.05;
         $(this).css("fontSize", fontSize + "px");
     });
 };
+
+function setFullDayWidth() {
+    let pastWidth = $(".night > .past").width();
+    pastWidth += $(".morning > .past").width();
+    pastWidth += $(".afternoon  > .past").width();
+    pastWidth += $(".evening > .past").width();
+    $(".full-day > .past").width(pastWidth);
+
+    flexFont();
+}

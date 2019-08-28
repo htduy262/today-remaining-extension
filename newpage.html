@@ -6,41 +6,50 @@
     <link href="css.css" rel="stylesheet" type="text/css">
     <script src="jquery.js"></script>
     <script src="node_modules/moment/moment.js"></script>
-    
+
 </head>
 
 <body>
     <div class="content">
         <div class="day">
             <div class="label label-zeroAM">0 AM</div>
+            <div class="label label-3AM">3 AM</div>
             <div class="label label-6AM">6 AM</div>
+            <div class="label label-9AM">9 AM</div>
             <div class="label label-12PM">12 PM</div>
+            <div class="label label-3PM">3 PM</div>
             <div class="label label-6PM">6 PM</div>
+            <div class="label label-9PM">9 PM</div>
             <div class="label label-12AM">12 AM</div>
             <div class="color-blocks">
                 <div class="block night">
                     <div class="past percent-0">&nbsp;</div>
-                    <div class="label-center">night</div>
+                    <div class="label-center"><span class="time text">night</span></div>
                 </div>
                 <div class="block morning">
                     <div class="past percent-0">&nbsp;</div>
-                    <div class="label-center">morning</div>
+                    <div class="label-center"><span class="time text">morning</span></div>
                 </div>
                 <div class="block afternoon">
                     <div class="past percent-0">&nbsp;</div>
-                    <div class="label-center">afternoon</div>
+                    <div class="label-center"><span class="time text">afternoon</span></div>
                 </div>
                 <div class="block evening">
                     <div class="past percent-0">&nbsp;</div>
-                    <div class="label-center">evening</div>
+                    <div class="label-center"><span class="time text">evening</span></div>
                 </div>
                 <div class="block full-day">
-                    <div class="past percent-0"><span class="text"></span></div>
-                    <div class="label"><span class="text"></span></div>
+                    <div class="past percent-0">
+                        <span class="date text"></span>
+                        <span class="time text"></span>
+                    </div>
+                    <div class="label"><span class="time text"></span></div>
                 </div>
+
             </div>
         </div>
     </div>
 </body>
 <script src="content.js"></script>
+
 </html>
