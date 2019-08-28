@@ -1,0 +1,21 @@
+{
+    "manifest_version": 2,
+
+    "name": "Today Remaining",
+    "description": "To display how many hours remaining today",
+    "version": "1.0",
+
+    "chrome_url_overrides": {
+        "newtab": "newpage.html"
+    },
+
+    "permissions": [
+        "tabs",
+        "http://*/*",
+        "https://*/*"
+    ],
+
+    "background": {
+        "script": ["background.js"]
+    }
+}
