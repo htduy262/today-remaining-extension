@@ -84,7 +84,7 @@ function secondsToHms(d) {
     var m = Math.floor(d % 3600 / 60);
     var s = Math.floor(d % 3600 % 60);
 
-    var hDisplay = h > 0 ? h + ":" : "00";
+    var hDisplay = h > 0 ? h + ":" : "00:";
     var mDisplay = m > 0 ?
         m < 10 ? "0" + m + ":" : m + ":" :
         "00:";
